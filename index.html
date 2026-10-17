@@ -6,136 +6,154 @@
 <title>MKHost</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#090909;--card:#151515;--line:#292929;--red:#e50914;--text:#fff;--muted:#999}
-body{background:var(--bg);color:var(--text);font:14px Arial,sans-serif}
-button,input,textarea{font:inherit}
+:root{--bg:#0b0b0b;--card:#151515;--line:#292929;--red:#e50914;--muted:#999}
+body{background:var(--bg);color:#fff;font:14px Arial,sans-serif}
+button,input,textarea,select{font:inherit}
 button{cursor:pointer;border:0}
-header{height:58px;background:#111;position:sticky;top:0;z-index:5;border-bottom:1px solid var(--line)}
-.top{max-width:1250px;height:100%;margin:auto;padding:0 15px;display:flex;align-items:center;gap:18px}
-.logo{font-size:23px;font-weight:900;color:var(--red);white-space:nowrap}
-.search{flex:1;background:#222;border:1px solid #333;color:white;border-radius:8px;padding:10px}
-.avatar{width:35px;height:35px;border-radius:50%;object-fit:cover;background:#333}
-.layout{max-width:1250px;margin:18px auto;display:grid;grid-template-columns:190px minmax(0,600px) 260px;gap:18px;padding:0 15px}
-nav,.card{background:var(--card);border:1px solid var(--line);border-radius:12px}
-nav{padding:9px;height:max-content;position:sticky;top:75px}
-nav button{display:block;width:100%;text-align:left;background:none;color:#ddd;padding:12px;border-radius:7px}
+header{height:54px;background:#111;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.top{max-width:1100px;height:100%;margin:auto;padding:0 12px;display:flex;align-items:center;gap:12px}
+.logo{font-size:22px;font-weight:900;color:var(--red);white-space:nowrap}
+.search,input,textarea,select{background:#222;color:white;border:1px solid #333;border-radius:7px;padding:10px;outline:none}
+.search{flex:1;min-width:0}
+.avatar{width:34px;height:34px;object-fit:cover;border-radius:50%;background:#333}
+.layout{max-width:1100px;margin:12px auto;display:grid;grid-template-columns:155px minmax(0,1fr) 220px;gap:12px;padding:0 12px}
+nav,.card{background:var(--card);border:1px solid var(--line);border-radius:9px}
+nav{padding:6px;height:max-content;position:sticky;top:66px}
+nav button{display:block;width:100%;padding:10px 8px;text-align:left;background:none;color:#ccc;border-radius:6px}
 nav button:hover,nav button.active{background:#292929;color:#fff}
 nav button.active{border-left:3px solid var(--red)}
 main{min-width:0}
-.card{padding:15px;margin-bottom:13px}
-h3{font-size:15px;margin-bottom:12px}
-.muted{color:var(--muted);font-size:12px}
-.btn{background:var(--red);color:white;border-radius:7px;padding:10px 14px;font-weight:bold}
-.btn2{background:#292929;color:white;border-radius:7px;padding:9px 12px}
-input,textarea{background:#202020;color:white;border:1px solid #333;border-radius:8px;padding:11px;width:100%;outline:none}
-textarea{resize:vertical;min-height:75px}
-.row{display:flex;align-items:center;gap:10px}
-.between{justify-content:space-between}
-.gap{display:grid;gap:10px}
-.posthead{display:flex;align-items:center;gap:10px;margin-bottom:13px}
-.postbody{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.5;margin:10px 0}
-.media{width:100%;max-height:420px;object-fit:contain;border-radius:8px;background:#080808;margin-top:10px}
-.actions{display:flex;gap:8px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:10px;margin-top:12px}
-.actions button{background:#222;color:#ddd;border-radius:7px;padding:8px 10px}
-.actions button:hover{color:#fff;background:var(--red)}
+.card{padding:12px;margin-bottom:10px}
+h3{font-size:15px;margin-bottom:9px}
+.muted{font-size:12px;color:var(--muted)}
+.btn,.btn2{padding:9px 11px;border-radius:6px;color:white}
+.btn{background:var(--red);font-weight:bold}
+.btn2{background:#292929}
+input,textarea{width:100%;font-size:13px}
+textarea{min-height:65px;resize:vertical}
+.row{display:flex;align-items:center;gap:9px}
+.gap{display:grid;gap:9px}
+.posthead{display:flex;align-items:center;gap:9px;margin-bottom:8px}
+.postbody{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.5;margin:8px 0}
+.media{display:block;width:100%;max-height:340px;object-fit:contain;border-radius:7px;background:#080808;margin-top:9px}
+.actions{display:flex;gap:6px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:9px;margin-top:10px}
+.actions button{background:#242424;color:#ddd;border-radius:6px;padding:7px 9px;font-size:12px}
+.actions button:hover{background:var(--red);color:white}
 .side{height:max-content}
-.stat{padding:10px;background:#202020;border-radius:8px;margin:7px 0}
+.stat{background:#222;padding:9px;border-radius:6px;margin:6px 0}
 .status{display:inline-block;width:8px;height:8px;border-radius:50%;background:#777;margin-right:6px}
-.status.on{background:#36c66a}
+.status.on{background:#35c96b}
 .hidden{display:none!important}
-#auth{max-width:390px;margin:12vh auto;padding:20px}
-#auth .logo{text-align:center;font-size:32px;margin-bottom:8px}
-#auth .card{padding:23px}
-.tabs{display:flex;gap:7px;margin-bottom:12px}
-.tabs button{flex:1}
-#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#222;padding:12px 18px;border-radius:8px;z-index:10;display:none}
-@media(max-width:950px){.layout{grid-template-columns:165px minmax(0,1fr)}.side{display:none}}
-@media(max-width:600px){
- header{height:auto}.top{padding:10px;gap:10px;flex-wrap:wrap}
- .logo{font-size:21px}.search{order:3;flex-basis:100%}
- .layout{display:block;margin:10px auto;padding:0 9px}
- nav{position:static;display:flex;overflow-x:auto;margin-bottom:10px;padding:5px}
- nav button{white-space:nowrap;width:auto;padding:10px;font-size:12px}
- .card{padding:12px}.posthead .muted{font-size:11px}
+#auth{max-width:350px;margin:12vh auto;padding:12px}
+#auth .logo{text-align:center;font-size:30px}
+#auth .card{padding:18px}
+#toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#252525;padding:11px 16px;border-radius:8px;z-index:10;display:none;max-width:90%;text-align:center}
+@media(max-width:850px){
+ .layout{grid-template-columns:135px minmax(0,1fr)}
+ .side{display:none}
+}
+@media(max-width:560px){
+ header{height:auto}
+ .top{padding:8px;gap:8px;flex-wrap:wrap}
+ .logo{font-size:20px}
+ .search{order:3;flex-basis:100%}
+ .layout{display:block;margin:8px auto;padding:0 7px}
+ nav{position:static;display:flex;overflow-x:auto;gap:3px;margin-bottom:8px;padding:4px}
+ nav button{white-space:nowrap;width:auto;flex-shrink:0;padding:9px;font-size:12px}
+ nav button.active{border-left:0;border-bottom:2px solid var(--red)}
+ .card{padding:10px;margin-bottom:8px}
+ .btn,.btn2{padding:9px;font-size:12px}
+ .media{max-height:270px}
 }
 </style>
 </head>
 <body>
+
 <section id="auth">
-  <div class="logo">MKHost</div>
-  <p class="muted" style="text-align:center;margin:10px 0 22px">Твоё сообщество</p>
-  <div class="card gap">
-    <h3 id="authTitle">Вход в аккаунт</h3>
-    <input id="login" placeholder="Логин">
-    <input id="password" type="password" placeholder="Пароль">
-    <button class="btn" onclick="enter()">Войти</button>
-    <button class="btn2" onclick="toggleAuth()">Создать аккаунт</button>
-    <p class="muted">Демо-режим. Регистрация пока не сохраняется.</p>
-  </div>
+ <div class="logo">MKHost</div>
+ <p class="muted" style="text-align:center;margin:8px 0 18px">Твоё сообщество</p>
+ <div class="card gap">
+  <h3 id="authTitle">Вход в аккаунт</h3>
+  <input id="login" placeholder="Логин" autocomplete="username">
+  <input id="password" type="password" placeholder="Пароль" autocomplete="current-password">
+  <button class="btn" onclick="enter()">Войти</button>
+  <button class="btn2" onclick="toggleAuth()">Создать аккаунт</button>
+  <p class="muted">Демо-версия: аккаунты и публикации пока не сохраняются после перезагрузки.</p>
+ </div>
 </section>
+
 <div id="app" class="hidden">
-<header><div class="top">
+<header>
+ <div class="top">
   <div class="logo">MKHost</div>
-  <input class="search" id="search" placeholder="Поиск по MKHost" oninput="render()">
+  <input class="search" id="search" placeholder="Поиск по ленте" oninput="render()">
   <img class="avatar" id="myAvatar" alt="Аватар">
   <button class="btn2" onclick="logout()">Выйти</button>
-</div></header>
+ </div>
+</header>
+
 <div class="layout">
 <nav id="nav">
-  <button class="active" data-page="news" onclick="go('news')">⌂　Новости</button>
-  <button data-page="profile" onclick="go('profile')">◉　Моя страница</button>
-  <button data-page="messages" onclick="go('messages')">✉　Сообщения</button>
-  <button data-page="friends" onclick="go('friends')">♧　Друзья</button>
-  <button data-page="groups" onclick="go('groups')">▦　Сообщества</button>
-  <button data-page="photos" onclick="go('photos')">▧　Фотографии</button>
-  <button data-page="videos" onclick="go('videos')">▷　Видео</button>
-  <button data-page="music" onclick="go('music')">♫　Музыка</button>
-  <button data-page="settings" onclick="go('settings')">⚙　Настройки</button>
+ <button class="active" data-page="news" onclick="go('news')">⌂ Новости</button>
+ <button data-page="profile" onclick="go('profile')">◉ Моя страница</button>
+ <button data-page="messages" onclick="go('messages')">✉ Сообщения</button>
+ <button data-page="friends" onclick="go('friends')">♧ Друзья</button>
+ <button data-page="groups" onclick="go('groups')">▦ Сообщества</button>
+ <button data-page="photos" onclick="go('photos')">▧ Фото</button>
+ <button data-page="videos" onclick="go('videos')">▷ Видео</button>
+ <button data-page="music" onclick="go('music')">♫ Музыка</button>
+ <button data-page="settings" onclick="go('settings')">⚙ Настройки</button>
 </nav>
+
 <main>
-  <div id="pageTitle" class="card"><h3>Новости</h3></div>
-  <div id="composer" class="card">
-    <div class="row" style="margin-bottom:12px">
-      <img class="avatar" id="composerAvatar" alt="">
-      <strong id="composerName">Пользователь</strong>
-    </div>
-    <textarea id="postText" placeholder="Что у тебя нового?"></textarea>
-    <div class="gap" style="margin-top:10px">
-      <input id="mediaUrl" placeholder="Ссылка на фото, видео или музыку (необязательно)">
-      <div class="row">
-        <select id="mediaType" style="flex:1;background:#222;color:white;padding:10px;border:1px solid #333;border-radius:7px">
-          <option value="text">Текст</option>
-          <option value="photo">Фото</option>
-          <option value="video">Видео</option>
-          <option value="music">Музыка</option>
-        </select>
-        <button class="btn" onclick="addPost()">Опубликовать</button>
-      </div>
-    </div>
+ <div id="pageTitle" class="card"><h3>Новости</h3></div>
+
+ <div id="composer" class="card">
+  <div class="row" style="margin-bottom:9px">
+   <img class="avatar" id="composerAvatar" alt="">
+   <strong id="composerName">Пользователь</strong>
   </div>
-  <div id="content"></div>
+  <textarea id="postText" placeholder="Что у тебя нового?"></textarea>
+  <div class="gap" style="margin-top:9px">
+   <input id="mediaUrl" placeholder="Ссылка на медиа (необязательно)">
+   <div class="row">
+    <select id="mediaType" style="flex:1;min-width:0">
+     <option value="text">Текст</option>
+     <option value="photo">Фото</option>
+     <option value="video">Видео</option>
+     <option value="music">Музыка</option>
+    </select>
+    <button class="btn" onclick="addPost()">Опубликовать</button>
+   </div>
+  </div>
+ </div>
+
+ <div id="content"></div>
 </main>
+
 <aside class="side">
-  <div class="card">
-    <h3>Minecraft · MKHost</h3>
-    <div class="stat"><span id="mcDot" class="status"></span><span id="mcStatus">Проверяем сервер…</span></div>
-    <div class="stat">Игроки: <b id="mcPlayers">—</b></div>
-    <div class="stat">Версия: <b id="mcVersion">—</b></div>
-    <div class="muted" style="margin:10px 0">Kartaviy.aternos.me</div>
-    <button class="btn2" onclick="checkServer()">Обновить статус</button>
-  </div>
-  <div class="card">
-    <h3>MKHost</h3>
-    <p class="muted">Общайся, публикуй фотографии, видео и музыку.</p>
-  </div>
+ <div class="card">
+  <h3>Minecraft · MKHost</h3>
+  <div class="stat"><span id="mcDot" class="status"></span><span id="mcStatus">Проверяем…</span></div>
+  <div class="stat">Игроки: <b id="mcPlayers">—</b></div>
+  <div class="stat">Версия: <b id="mcVersion">—</b></div>
+  <p class="muted" style="margin:9px 0">Kartaviy.aternos.me</p>
+  <button class="btn2" onclick="checkServer()">Обновить статус</button>
+ </div>
+ <div class="card">
+  <h3>MKHost</h3>
+  <p class="muted">Общайся, делись фото, видео и музыкой.</p>
+ </div>
 </aside>
 </div>
 </div>
 <div id="toast"></div>
+
 <script>
 let user=null,registerMode=false,page='news';
 let posts=[],likes=new Set(),comments={};
 let users=[{login:'Admin',password:'288277',name:'Admin',avatar:'',role:'admin'}];
+
 function toggleAuth(){
  registerMode=!registerMode;
  document.getElementById('authTitle').textContent=registerMode?'Регистрация':'Вход в аккаунт';
@@ -147,10 +165,13 @@ function enter(){
  const p=document.getElementById('password').value;
  if(!l||!p)return toast('Заполни логин и пароль');
  if(registerMode){
-  if(users.some(u=>u.login.toLowerCase()===l.toLowerCase()))return toast('Такой логин уже занят');
+  if(users.some(u=>u.login.toLowerCase()===l.toLowerCase()))return toast('Логин уже занят');
   users.push({login:l,password:p,name:l,avatar:'',role:'user'});
-  registerMode=false;document.getElementById('authTitle').textContent='Вход в аккаунт';
-  return toast('Аккаунт создан. Войди в него.');
+  registerMode=false;
+  document.getElementById('authTitle').textContent='Вход в аккаунт';
+  document.querySelector('#auth .btn').textContent='Войти';
+  document.querySelector('#auth .btn2').textContent='Создать аккаунт';
+  return toast('Аккаунт создан. Теперь войди.');
  }
  user=users.find(u=>u.login===l&&u.password===p);
  if(!user)return toast('Неверный логин или пароль');
@@ -160,30 +181,53 @@ function enter(){
  document.getElementById('myAvatar').src=user.avatar||avatar(user.name);
  document.getElementById('composerAvatar').src=user.avatar||avatar(user.name);
  if(!posts.length)posts.push({id:1,login:'MKHost',name:'MKHost',role:'admin',text:'Добро пожаловать в MKHost! 🖤',type:'text',url:'',time:new Date().toLocaleString('ru'),likes:0});
- go('news');checkServer();
+ go('news');
+ checkServer();
 }
-function logout(){user=null;document.getElementById('app').classList.add('hidden');document.getElementById('auth').classList.remove('hidden')}
-function avatar(n){return 'https://ui-avatars.com/api/?name='+encodeURIComponent(n)+'&background=252525&color=ffffff'}
-function toast(t){let e=document.getElementById('toast');e.textContent=t;e.style.display='block';setTimeout(()=>e.style.display='none',2500)}
+function logout(){
+ user=null;
+ document.getElementById('app').classList.add('hidden');
+ document.getElementById('auth').classList.remove('hidden');
+}
+function avatar(n){
+ return 'https://ui-avatars.com/api/?name='+encodeURIComponent(n)+'&background=252525&color=ffffff';
+}
+function toast(t){
+ const e=document.getElementById('toast');
+ e.textContent=t;e.style.display='block';
+ clearTimeout(window.toastTimer);
+ window.toastTimer=setTimeout(()=>e.style.display='none',2500);
+}
 function addPost(){
- let text=document.getElementById('postText').value.trim(),url=document.getElementById('mediaUrl').value.trim(),type=document.getElementById('mediaType').value;
+ const text=document.getElementById('postText').value.trim();
+ const url=document.getElementById('mediaUrl').value.trim();
+ const type=document.getElementById('mediaType').value;
  if(!text&&!url)return toast('Добавь текст или ссылку');
  if(type!=='text'&&!url)return toast('Добавь ссылку на медиа');
  posts.unshift({id:Date.now(),login:user.login,name:user.name,role:user.role,text,type,url,time:new Date().toLocaleString('ru'),likes:0});
- document.getElementById('postText').value='';document.getElementById('mediaUrl').value='';
- go('news');toast('Опубликовано временно — база ещё не подключена');
+ document.getElementById('postText').value='';
+ document.getElementById('mediaUrl').value='';
+ go('news');
+ toast('Публикация добавлена временно');
 }
 function removePost(id){
- let p=posts.find(x=>x.id===id);
+ const p=posts.find(x=>x.id===id);
  if(p&&(p.login===user.login||user.role==='admin')){
-  posts=posts.filter(x=>x.id!==id);render();
+  posts=posts.filter(x=>x.id!==id);
+  render();
  }
 }
-function like(id){let p=posts.find(x=>x.id===id);if(!p)return;
- if(likes.has(id)){likes.delete(id);p.likes--}else{likes.add(id);p.likes++}render()}
+function like(id){
+ const p=posts.find(x=>x.id===id);if(!p)return;
+ if(likes.has(id)){likes.delete(id);p.likes--}
+ else{likes.add(id);p.likes++}
+ render();
+}
 function addComment(id){
- let e=document.getElementById('comment'+id),v=e.value.trim();if(!v)return;
- (comments[id]??=[]).push({name:user.name,text:v});render();
+ const e=document.getElementById('comment'+id),v=e.value.trim();
+ if(!v)return;
+ (comments[id]??=[]).push({name:user.name,text:v});
+ render();
 }
 function go(p){
  page=p;
@@ -194,28 +238,31 @@ function go(p){
  render();
 }
 function render(){
- let box=document.getElementById('content');if(!box)return;
+ const box=document.getElementById('content');if(!box||!user)return;
  if(page==='settings'){
-  box.innerHTML='<div class="card gap"><h3>Настройки профиля</h3><label>Имя<input id="setName" value="'+esc(user.name)+'"></label><label>Ссылка на аватар<input id="setAvatar" placeholder="https://..." value="'+esc(user.avatar||'')+'"></label><button class="btn" onclick="saveProfile()">Сохранить</button></div>';return;
+  box.innerHTML='<div class="card gap"><h3>Настройки профиля</h3><label>Имя<input id="setName" value="'+esc(user.name)+'"></label><label>Ссылка на аватар<input id="setAvatar" placeholder="https://..." value="'+esc(user.avatar||'')+'"></label><button class="btn" onclick="saveProfile()">Сохранить</button></div>';
+  return;
  }
  if(['messages','friends','groups'].includes(page)){
-  box.innerHTML='<div class="card"><h3>'+({messages:'Сообщения',friends:'Друзья',groups:'Сообщества'})[page]+'</h3><p class="muted">Этот раздел подключим к базе данных следующим шагом.</p></div>';return;
+  const t={messages:'Сообщения',friends:'Друзья',groups:'Сообщества'};
+  box.innerHTML='<div class="card"><h3>'+t[page]+'</h3><p class="muted">Раздел подключим следующим этапом.</p></div>';
+  return;
  }
- let list=posts.filter(p=>{
+ const q=(document.getElementById('search')?.value||'').toLowerCase();
+ const list=posts.filter(p=>{
   if(page==='photos'&&p.type!=='photo')return false;
   if(page==='videos'&&p.type!=='video')return false;
   if(page==='music'&&p.type!=='music')return false;
   if(page==='profile'&&p.login!==user.login)return false;
-  let q=(document.getElementById('search')?.value||'').toLowerCase();
   return (p.text+' '+p.name).toLowerCase().includes(q);
  });
  box.innerHTML=list.map(p=>{
   let media='';
   if(p.url&&p.type==='photo')media='<img class="media" src="'+esc(p.url)+'" alt="Фото" onerror="this.style.display=\'none\'">';
   if(p.url&&p.type==='video')media='<video class="media" controls src="'+esc(p.url)+'"></video>';
-  if(p.url&&p.type==='music')media='<audio controls style="width:100%;margin-top:12px" src="'+esc(p.url)+'"></audio>';
-  let del=(p.login===user.login||user.role==='admin')?'<button onclick="removePost('+p.id+')">Удалить</button>':'';
-  return '<article class="card"><div class="posthead"><img class="avatar" src="'+avatar(p.name)+'" alt=""><div><b>'+esc(p.name)+'</b><div class="muted">'+esc(p.time)+'</div></div><span style="margin-left:auto;color:var(--red)">'+(p.role==='admin'?'ADMIN':'')+'</span></div><div class="postbody">'+esc(p.text)+'</div>'+media+'<div class="actions"><button onclick="like('+p.id+')">♥ '+p.likes+'</button><button onclick="document.getElementById(\'commentBox'+p.id+'\').classList.toggle(\'hidden\')">Комментарии ('+(comments[p.id]||[]).length+')</button>'+del+'</div><div id="commentBox'+p.id+'" class="gap hidden" style="margin-top:10px"><input id="comment'+p.id+'" placeholder="Написать комментарий"><button class="btn2" onclick="addComment('+p.id+')">Отправить</button>'+(comments[p.id]||[]).map(c=>'<p><b>'+esc(c.name)+':</b> '+esc(c.text)+'</p>').join('')+'</div></article>';
+  if(p.url&&p.type==='music')media='<audio controls style="width:100%;margin-top:10px" src="'+esc(p.url)+'"></audio>';
+  const del=(p.login===user.login||user.role==='admin')?'<button onclick="removePost('+p.id+')">Удалить</button>':'';
+  return '<article class="card"><div class="posthead"><img class="avatar" src="'+avatar(p.name)+'" alt=""><div><b>'+esc(p.name)+'</b><div class="muted">'+esc(p.time)+'</div></div><span style="margin-left:auto;color:var(--red)">'+(p.role==='admin'?'ADMIN':'')+'</span></div><div class="postbody">'+esc(p.text)+'</div>'+media+'<div class="actions"><button onclick="like('+p.id+')">♥ '+p.likes+'</button><button onclick="document.getElementById(\'commentBox'+p.id+'\').classList.toggle(\'hidden\')">Комментарии ('+(comments[p.id]||[]).length+')</button>'+del+'</div><div id="commentBox'+p.id+'" class="gap hidden" style="margin-top:9px"><input id="comment'+p.id+'" placeholder="Написать комментарий"><button class="btn2" onclick="addComment('+p.id+')">Отправить</button>'+(comments[p.id]||[]).map(c=>'<p><b>'+esc(c.name)+':</b> '+esc(c.text)+'</p>').join('')+'</div></article>';
  }).join('')||'<div class="card muted">Пока здесь пусто.</div>';
 }
 function saveProfile(){
@@ -224,21 +271,25 @@ function saveProfile(){
  document.getElementById('composerName').textContent=user.name;
  document.getElementById('myAvatar').src=user.avatar||avatar(user.name);
  document.getElementById('composerAvatar').src=user.avatar||avatar(user.name);
- toast('Изменения пока временные');go('settings');
+ toast('Профиль изменён временно');
+ go('settings');
 }
-function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function esc(s){
+ return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
 async function checkServer(){
- document.getElementById('mcStatus').textContent='Проверяем…';
+ const status=document.getElementById('mcStatus');
+ status.textContent='Проверяем…';
  try{
-  let r=await fetch('https://api.mcsrvstat.us/3/Kartaviy.aternos.me');
-  let d=await r.json();
-  let on=!!d.online;
+  const r=await fetch('https://api.mcsrvstat.us/3/Kartaviy.aternos.me');
+  const d=await r.json(),on=!!d.online;
   document.getElementById('mcDot').className='status '+(on?'on':'');
-  document.getElementById('mcStatus').textContent=on?'Сервер онлайн':'Сервер офлайн';
+  status.textContent=on?'Сервер онлайн':'Сервер офлайн';
   document.getElementById('mcPlayers').textContent=on&&d.players?d.players.online+' / '+d.players.max:'0';
   document.getElementById('mcVersion').textContent=on?(d.version||'Неизвестно'):'—';
- }catch(e){document.getElementById('mcStatus').textContent='Статус недоступен'}
+ }catch(e){status.textContent='Статус недоступен'}
 }
+checkServer();
 setInterval(checkServer,30000);
 </script>
 </body>
