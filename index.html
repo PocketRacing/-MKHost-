@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MKHost</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0b0b0d;--card:#18181b;--line:#29292e;--red:#e50914;--text:#fff;--muted:#929298}
+body{background:var(--bg);color:var(--text);font:14px Arial,sans-serif}
+button,input,textarea{font:inherit}
+button{cursor:pointer;border:0}
+input,textarea{background:#242428;color:white;border:1px solid var(--line);border-radius:9px;padding:12px;width:100%;outline:none}
+button:focus,input:focus,textarea:focus{border-color:var(--red)}
+.hidden{display:none!important}
+.logo{display:flex;align-items:center;gap:10px;font-size:24px;font-weight:bold}
+.logo-icon{background:var(--red);padding:9px;border-radius:10px}
+header{height:62px;background:#111113;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.top{max-width:1200px;margin:auto;height:100%;display:flex;align-items:center;gap:20px;padding:0 15px}
+.search{max-width:380px;margin-left:20px}
+.top-right{margin-left:auto;display:flex;align-items:center;gap:14px}
+.avatar{width:38px;height:38px;border-radius:50%;background:var(--red);display:grid;place-items:center;font-weight:bold;flex-shrink:0}
+.layout{max-width:1200px;margin:20px auto;display:grid;grid-template-columns:190px minmax(0,600px) 260px;gap:18px;padding:0 15px;align-items:start}
+nav{position:sticky;top:82px}
+.navbtn{display:flex;align-items:center;gap:12px;padding:12px;width:100%;background:none;color:#ccc;text-align:left;border-radius:8px;margin-bottom:3px}
+.navbtn:hover,.navbtn.active{background:#242426;color:#fff}
+.navbtn.active{border-left:3px solid var(--red)}
+.navbtn span{color:var(--red);width:20px;font-size:17px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:14px}
+h2{font-size:19px;margin-bottom:14px}
+h3{font-size:15px}
+.muted{color:var(--muted);font-size:12px}
+.row{display:flex;align-items:center;gap:11px}
+.between{justify-content:space-between}
+.stack{display:grid;gap:12px}
+.redbtn{background:var(--red);color:white;padding:11px 16px;border-radius:8px;font-weight:bold}
+.redbtn:hover{background:#c90812}
+.darkbtn{background:#29292e;color:#eee;padding:10px;border-radius:8px}
+.full{width:100%}
+.post{line-height:1.55;overflow-wrap:anywhere}
+.post-head{display:flex;gap:10px;align-items:center;margin-bottom:14px}
+.post-body{margin:12px 0;white-space:pre-wrap}
+.post-actions{display:flex;gap:8px;border-top:1px solid var(--line);padding-top:12px}
+.post-actions button{background:#242428;color:#ccc;padding:9px;border-radius:8px;flex:1}
+.post-actions button:hover,.post-actions button.liked{color:var(--red)}
+.server-address{background:#222226;border-radius:8px;padding:12px;overflow-wrap:anywhere}
+.dot{width:8px;height:8px;background:#777;border-radius:50%;display:inline-block;margin-right:6px}
+.dot.on{background:#31c46c}
+.small-link{color:#ccc;background:none;text-align:left;padding:7px 0}
+.small-link:hover{color:var(--red)}
+.profile-cover{height:110px;background:linear-gradient(120deg,#390509,#e50914,#151515);border-radius:10px;margin-bottom:-32px}
+.profile-head{padding:0 14px 12px}
+.big-avatar{width:76px;height:76px;border:4px solid var(--card);font-size:24px}
+.stats{display:flex;gap:25px;margin-top:15px}
+.stat strong{display:block;font-size:18px}
+.auth-wrap{min-height:100vh;display:grid;place-items:center;padding:20px;background:radial-gradient(ellipse at top,#280608 0%,#0b0b0d 55%)}
+.auth{width:100%;max-width:390px}
+.auth .logo{justify-content:center;font-size:30px;margin-bottom:10px}
+.auth-sub{text-align:center;color:var(--muted);margin-bottom:25px}
+.tabs{display:flex;background:#222226;padding:4px;border-radius:9px;gap:4px}
+.tabs button{flex:1;padding:10px;background:none;color:#aaa;border-radius:7px}
+.tabs button.active{background:var(--red);color:#fff}
+#notice{color:#ff7b80;font-size:12px;min-height:16px}
+.chat-layout{display:grid;grid-template-columns:150px 1fr;gap:12px;min-height:280px}
+.chat-list button{display:block;width:100%;padding:10px;background:#222226;color:white;text-align:left;border-radius:8px;margin-bottom:6px}
+.chat-messages{height:220px;overflow:auto;display:flex;flex-direction:column;gap:9px;margin-bottom:10px}
+.bubble{max-width:85%;padding:10px;background:#29292e;border-radius:10px;align-self:flex-start;overflow-wrap:anywhere}
+.bubble.mine{background:#591116;align-self:flex-end}
+.empty{text-align:center;color:var(--muted);padding:30px 10px}
+footer{text-align:center;color:#666;font-size:11px;padding:20px}
+@media(max-width:950px){.layout{grid-template-columns:165px minmax(0,1fr)}.rightbar{display:none}}
+@media(max-width:600px){header{height:auto}.top{padding:10px;flex-wrap:wrap;gap:10px}.logo{font-size:20px}.search{order:3;margin:0;max-width:none;flex-basis:100%}.layout{display:block;margin:12px auto;padding:0 10px}nav{position:static;display:flex;overflow-x:auto;gap:4px;margin-bottom:12px}.navbtn{width:auto;white-space:nowrap;padding:10px}.navbtn span{width:auto}.navbtn .label{display:none}.chat-layout{grid-template-columns:100px 1fr}.card{padding:12px}}
+</style>
+</head>
+<body>
+
+<section id="authScreen" class="auth-wrap">
+ <div class="auth">
+  <div class="logo"><span class="logo-icon">🎮</span> MKHost</div>
+  <p class="auth-sub">Игровое сообщество твоего сервера</p>
+  <div class="card stack">
+   <div class="tabs">
+    <button id="loginTab" class="active" onclick="setAuth('login')">Вход</button>
+    <button id="registerTab" onclick="setAuth('register')">Регистрация</button>
+   </div>
+   <form id="authForm" class="stack">
+    <label>Логин<input id="username" placeholder="Введите логин" autocomplete="username" required></label>
+    <label>Пароль<input id="password" type="password" placeholder="Введите пароль" autocomplete="current-password" required></label>
+    <div id="notice"></div>
+    <button class="redbtn full" id="authSubmit">Войти</button>
+   </form>
+   <p class="muted" style="text-align:center">Регистрация без электронной почты</p>
+  </div>
+  <p class="muted" style="text-align:center">MKHost · Minecraft Community</p>
+ </div>
+</section>
+
+<div id="app" class="hidden">
+ <header>
+  <div class="top">
+   <div class="logo"><span class="logo-icon">🎮</span> MKHost</div>
+   <div class="search"><input id="searchInput" placeholder="Поиск по MKHost" oninput="searchPosts(this.value)"></div>
+   <div class="top-right">
+    <button class="darkbtn" onclick="go('messages')">✉</button>
+    <button class="darkbtn" onclick="go('news')">♧</button>
+    <div class="row" style="cursor:pointer" onclick="go('profile')">
+     <div class="avatar" id="topAvatar">A</div>
+     <strong id="topName">Admin</strong>
+    </div>
+   </div>
+  </div>
+ </header>
+
+ <div class="layout">
+  <nav id="navigation">
+   <button class="navbtn active" data-page="profile" onclick="go('profile')"><span>♙</span><b class="label">Моя страница</b></button>
+   <button class="navbtn" data-page="news" onclick="go('news')"><span>▤</span><b class="label">Новости</b></button>
+   <button class="navbtn" data-page="messages" onclick="go('messages')"><span>✉</span><b class="label">Мессенджер</b></button>
+   <button class="navbtn" data-page="friends" onclick="go('friends')"><span>♧</span><b class="label">Друзья</b></button>
+   <button class="navbtn" data-page="groups" onclick="go('groups')"><span>♙</span><b class="label">Сообщества</b></button>
+   <button class="navbtn" data-page="photos" onclick="go('photos')"><span>▧</span><b class="label">Фотографии</b></button>
+   <button class="navbtn" data-page="music" onclick="go('music')"><span>♫</span><b class="label">Музыка</b></button>
+   <button class="navbtn" data-page="settings" onclick="go('settings')"><span>⚙</span><b class="label">Настройки</b></button>
+   <button class="navbtn" onclick="logout()"><span>↪</span><b class="label">Выйти</b></button>
+  </nav>
+
+  <main id="main"></main>
+
+  <aside class="rightbar">
+   <div class="card">
+    <h3>🖥 Сервер Minecraft</h3>
+    <p class="muted" style="margin:12px 0">Адрес сервера</p>
+    <div class="server-address">Kartaviy.aternos.me</div>
+    <div style="margin-top:12px" id="serverStatus"><span class="dot"></span>Проверяем статус...</div>
+    <p id="serverPlayers" class="muted" style="margin-top:8px"></p>
+    <button class="redbtn full" style="margin-top:12px" onclick="copyAddress()">Копировать адрес</button>
+   </div>
+   <div class="card">
+    <h3>Сообщество MKHost</h3>
+    <p class="muted" style="margin:10px 0">Новости, общение и события игрового сервера.</p>
+    <button class="darkbtn full" onclick="go('groups')">Открыть сообщество</button>
+   </div>
+   <div class="card">
+    <h3>Разделы</h3>
+    <div class="stack" style="gap:4px;margin-top:8px">
+     <button class="small-link" onclick="go('news')">→ Последние новости</button>
+     <button class="small-link" onclick="go('friends')">→ Поиск друзей</button>
+     <button class="small-link" onclick="go('messages')">→ Сообщения</button>
+    </div>
+   </div>
+  </aside>
+ </div>
+ <footer>MKHost · Игровое сообщество · Демоверсия</footer>
+</div>
+
+<script>
+const ADMIN_USER='Admin';
+const ADMIN_PASS='288277';
+let authMode='login';
+let currentUser='';
+let posts=[];
+let users=['Admin'];
+let chats={};
+let activeChat='Admin';
+let likes=new Set();
+let page='profile';
+
+function setAuth(mode){
+ authMode=mode;
+ document.getElementById('loginTab').classList.toggle('active',mode==='login');
+ document.getElementById('registerTab').classList.toggle('active',mode==='register');
+ document.getElementById('authSubmit').textContent=mode==='login'?'Войти':'Создать аккаунт';
+ document.getElementById('password').autocomplete=mode==='login'?'current-password':'new-password';
+ document.getElementById('notice').textContent='';
+}
+document.getElementById('authForm').addEventListener('submit',e=>{
+ e.preventDefault();
+ const u=document.getElementById('username').value.trim();
+ const p=document.getElementById('password').value;
+ const notice=document.getElementById('notice');
+ if(!u||!p){notice.textContent='Заполните все поля';return}
+ if(authMode==='login'){
+  if(u===ADMIN_USER&&p===ADMIN_PASS){enter(u);return}
+  notice.textContent='В демоверсии доступен только аккаунт Admin. Регистрация не сохраняется.';
+ }else{
+  if(u.toLowerCase()==='admin'){notice.textContent='Имя Admin зарезервировано.';return}
+  if(users.includes(u)){notice.textContent='Этот логин уже занят в текущем сеансе.';return}
+  users.push(u);
+  enter(u);
+ }
+});
+function enter(u){
+ currentUser=u;
+ document.getElementById('authScreen').classList.add('hidden');
+ document.getElementById('app').classList.remove('hidden');
+ document.getElementById('topName').textContent=u;
+ document.getElementById('topAvatar').textContent=u[0].toUpperCase();
+ go('news');
+}
+function logout(){
+ currentUser='';
+ document.getElementById('app').classList.add('hidden');
+ document.getElementById('authScreen').classList.remove('hidden');
+ document.getElementById('username').value='';
+ document.getElementById('password').value='';
+}
+function go(p){
+ page=p;
+ document.querySelectorAll('.navbtn[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===p));
+ const main=document.getElementById('main');
+ if(p==='news')main.innerHTML=newsPage();
+ else if(p==='profile')main.innerHTML=profilePage();
+ else if(p==='messages')main.innerHTML=messagesPage();
+ else if(p==='friends')main.innerHTML=friendsPage();
+ else if(p==='groups')main.innerHTML=groupsPage();
+ else if(p==='photos')main.innerHTML=photosPage();
+ else if(p==='music')main.innerHTML=musicPage();
+ else if(p==='settings')main.innerHTML=settingsPage();
+}
+function composer(){
+ return `<div class="card"><div class="row"><div class="avatar">${currentUser[0].toUpperCase()}</div><textarea id="postText" rows="2" placeholder="Что у вас нового?"></textarea></div><div class="row between" style="margin-top:10px"><span class="muted">Расскажи о событиях сервера</span><button class="redbtn" onclick="publishPost()">Опубликовать</button></div></div>`;
+}
+function postCard(p,i){
+ const liked=likes.has(p.id);
+ return `<div class="card post" data-post="${escapeHtml(p.text.toLowerCase())}"><div class="post-head"><div class="avatar">${escapeHtml(p.user[0].toUpperCase())}</div><div><strong>${escapeHtml(p.user)}</strong><div class="muted">${p.time}</div></div>${p.user==='Admin'?'<span class="muted" style="margin-left:auto">Администратор</span>':''}</div><div class="post-body">${escapeHtml(p.text)}</div><div class="post-actions"><button class="${liked?'liked':''}" onclick="toggleLike(${p.id})">♥ ${p.likes+(liked?1:0)}</button><button onclick="commentPost(${p.id})">▢ Комментировать</button><button onclick="sharePost(${p.id})">↗ Поделиться</button></div>${p.comments?.length?`<div style="margin-top:12px">${p.comments.map(c=>`<p style="margin-top:7px"><b>${escapeHtml(c.user)}:</b> ${escapeHtml(c.text)}</p>`).join('')}</div>`:''}</div>`;
+}
+function newsPage(){
+ return `<h2>Новости</h2>${composer()}<div id="feed">${posts.length?posts.map(postCard).join(''):'<div class="card empty">Пока нет публикаций. Создай первую запись!</div>'}</div>`;
+}
+function profilePage(){
+ const own=posts.filter(p=>p.user===currentUser);
+ return `<div class="card"><div class="profile-cover"></div><div class="profile-head"><div class="row"><div class="avatar big-avatar">${currentUser[0].toUpperCase()}</div><div><h2 style="margin:0">${escapeHtml(currentUser)}</h2><p class="muted">${currentUser==='Admin'?'Администратор MKHost':'Участник MKHost'}</p></div></div><div class="stats"><div class="stat"><strong>0</strong><span class="muted">Друзья</span></div><div class="stat"><strong>${own.length}</strong><span class="muted">Записи</span></div><div class="stat"><strong>0</strong><span class="muted">Фото</span></div></div></div></div><h2>Мои записи</h2>${composer()}${own.length?own.map(postCard).join(''):'<div class="card empty">У тебя пока нет записей.</div>'}`;
+}
+function publishPost(){
+ const el=document.getElementById('postText');
+ if(!el||!el.value.trim())return;
+ posts.unshift({id:Date.now(),user:currentUser,text:el.value.trim(),time:'только что',likes:0,comments:[]});
+ go(page==='profile'?'profile':'news');
+}
+function toggleLike(id){
+ if(likes.has(id))likes.delete(id);else likes.add(id);
+ go(page);
+}
+function commentPost(id){
+ const text=prompt('Напиши комментарий:');
+ if(!text?.trim())return;
+ const p=posts.find(x=>x.id===id);
+ if(p){p.comments.push({user:currentUser,text:text.trim()});go(page)}
+}
+function sharePost(id){
+ const p=posts.find(x=>x.id===id);
+ if(p){posts.unshift({...p,id:Date.now(),user:currentUser,text:'Репост: '+p.text,comments:[]});go('news')}
+}
+function friendsPage(){
+ return `<h2>Друзья</h2><div class="card"><input id="friendSearch" placeholder="Найти участника" oninput="renderUsers(this.value)"><div id="usersList" style="margin-top:12px"></div></div>`;
+}
+function renderUsers(q=''){
+ const el=document.getElementById('usersList');if(!el)return;
+ const found=users.filter(u=>u.toLowerCase().includes(q.toLowerCase()));
+ el.innerHTML=found.map(u=>`<div class="row between" style="padding:10px 0"><div class="row"><div class="avatar">${escapeHtml(u[0].toUpperCase())}</div><div><b>${escapeHtml(u)}</b><div class="muted">${u==='Admin'?'Администратор':'Участник'}</div></div></div><button class="darkbtn" onclick="openChat('${escapeHtml(u)}')">Написать</button></div>`).join('')||'<p class="muted">Никого не найдено.</p>';
+}
+function groupsPage(){
+ return `<h2>Сообщества</h2><div class="card"><div class="row"><div class="avatar">🎮</div><div><h3>MKHost Minecraft</h3><p class="muted">Официальное игровое сообщество</p></div></div><p style="margin:14px 0">Новости сервера, общение и игровые события.</p><button class="redbtn" onclick="go('news')">Перейти к новостям</button></div>`;
+}
+function photosPage(){return `<h2>Фотографии</h2><div class="card empty">Фотографий пока нет.</div>`}
+function musicPage(){return `<h2>Музыка</h2><div class="card empty">Музыкальный раздел пока пуст.</div>`}
+function settingsPage(){
+ return `<h2>Настройки</h2><div class="card stack"><h3>Профиль</h3><label>Имя<input id="editName" value="${escapeHtml(currentUser)}"></label><button class="redbtn" onclick="changeName()">Изменить имя в текущем сеансе</button><button class="darkbtn" onclick="logout()">Выйти из аккаунта</button><p class="muted">В этой версии изменения не сохраняются после перезагрузки страницы.</p></div>${currentUser==='Admin'?'<div class="card"><h3>Права администратора</h3><p class="muted" style="margin-top:8px">Демонстрационная метка. Настоящая защита требует серверной авторизации.</p></div>':''}`;
+}
+function changeName(){
+ const v=document.getElementById('editName').value.trim();
+ if(!v)return;
+ if(v!==currentUser&&!users.includes(v))users.push(v);
+ currentUser=v;
+ document.getElementById('topName').textContent=v;
+ document.getElementById('topAvatar').textContent=v[0].toUpperCase();
+ go('profile');
+}
+function messagesPage(){
+ if(!chats[currentUser])chats[currentUser]=[];
+ return `<h2>Мессенджер</h2><div class="card chat-layout"><div class="chat-list"><h3 style="margin-bottom:10px">Диалоги</h3>${users.filter(u=>u!==currentUser).map(u=>`<button onclick="openChat('${escapeHtml(u)}')">${escapeHtml(u)}</button>`).join('')||'<p class="muted">Пользователей пока нет.</p>'}</div><div><h3 style="margin-bottom:10px">${escapeHtml(activeChat)}</h3><div class="chat-messages" id="chatMessages"></div><div class="row"><input id="chatInput" placeholder="Сообщение..." onkeydown="if(event.key==='Enter')sendMessage()"><button class="redbtn" onclick="sendMessage()">➤</button></div></div></div><p class="muted">Сообщения работают только в текущем сеансе браузера.</p>`;
+}
+function openChat(u){activeChat=u;go('messages')}
+function sendMessage(){
+ const el=document.getElementById('chatInput');if(!el||!el.value.trim())return;
+ if(!chats[activeChat])chats[activeChat]=[];
+ chats[activeChat].push({from:currentUser,text:el.value.trim()});
+ el.value='';renderMessages();
+}
+function renderMessages(){
+ const el=document.getElementById('chatMessages');if(!el)return;
+ el.innerHTML=(chats[activeChat]||[]).map(m=>`<div class="bubble ${m.from===currentUser?'mine':''}"><b>${escapeHtml(m.from)}</b><br>${escapeHtml(m.text)}</div>`).join('')||'<div class="empty">Начни переписку.</div>';
+ el.scrollTop=el.scrollHeight;
+}
+function searchPosts(q){
+ if(page!=='news')go('news');
+ document.querySelectorAll('[data-post]').forEach(el=>el.classList.toggle('hidden',!el.dataset.post.includes(q.toLowerCase())));
+}
+function escapeHtml(s){
+ return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function copyAddress(){
+ if(navigator.clipboard)navigator.clipboard.writeText('Kartaviy.aternos.me').then(()=>alert('Адрес скопирован')).catch(()=>alert('Адрес: Kartaviy.aternos.me'));
+ else alert('Адрес: Kartaviy.aternos.me');
+}
+async function checkServer(){
+ const status=document.getElementById('serverStatus');
+ const players=document.getElementById('serverPlayers');
+ try{
+  const r=await fetch('https://api.mcsrvstat.us/3/Kartaviy.aternos.me');
+  if(!r.ok)throw Error();
+  const d=await r.json();
+  if(d.online){
+   status.innerHTML='<span class="dot on"></span>Сервер онлайн';
+   players.textContent='Игроки: '+(d.players?.online??0)+' / '+(d.players?.max??'?')+(d.version?' · '+d.version:'');
+  }else{
+   status.innerHTML='<span class="dot"></span>Сервер офлайн';
+   players.textContent='Возможно, сервер Aternos не запущен.';
+  }
+ }catch(e){
+  status.innerHTML='<span class="dot"></span>Статус недоступен';
+  players.textContent='Не удалось получить ответ проверки.';
+ }
+}
+checkServer();
+setInterval(checkServer,30000);
+</script>
+</body>
+</html>
